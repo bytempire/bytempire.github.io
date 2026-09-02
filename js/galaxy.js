@@ -1,4 +1,4 @@
-import { Renderer, Program, Mesh, Color, Triangle } from 'https://esm.sh/ogl';
+import { Renderer, Program, Mesh, Color, Triangle } from './vendor/ogl.mjs';
 
 const vertexShader = `
 attribute vec2 uv;
@@ -194,7 +194,8 @@ export function initGalaxy(ctn, options = {}) {
 
   const renderer = new Renderer({
     alpha: transparent,
-    premultipliedAlpha: false
+    premultipliedAlpha: false,
+    dpr: Math.min(window.devicePixelRatio || 1, 1.5)
   });
   const gl = renderer.gl;
 
@@ -209,7 +210,9 @@ export function initGalaxy(ctn, options = {}) {
   let program;
 
   function resize() {
-    renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+    const width = Math.max(1, window.innerWidth);
+    const height = Math.max(1, window.innerHeight);
+    renderer.setSize(width, height);
     if (program) {
       program.uniforms.uResolution.value = new Color(
         gl.canvas.width,
@@ -220,6 +223,7 @@ export function initGalaxy(ctn, options = {}) {
   }
 
   window.addEventListener('resize', resize, false);
+  window.addEventListener('orientationchange', resize, false);
   resize();
 
   const geometry = new Triangle(gl);
@@ -296,6 +300,7 @@ export function initGalaxy(ctn, options = {}) {
   return () => {
     cancelAnimationFrame(animateId);
     window.removeEventListener('resize', resize);
+    window.removeEventListener('orientationchange', resize);
     if (mouseInteraction) {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
@@ -307,18 +312,24 @@ export function initGalaxy(ctn, options = {}) {
 
 const galaxyEl = document.getElementById('galaxy');
 if (galaxyEl) {
-  initGalaxy(galaxyEl, {
-    mouseInteraction: false,
-    mouseRepulsion: false,
-    density: 1,
-    glowIntensity: 0.3,
-    saturation: 0,
-    hueShift: 140,
-    twinkleIntensity: 0.3,
-    rotationSpeed: 0.1,
-    repulsionStrength: 2,
-    starSpeed: 0.5,
-    speed: 1,
-    transparent: true
-  });
+  try {
+    initGalaxy(galaxyEl, {
+      mouseInteraction: false,
+      mouseRepulsion: false,
+      density: 1.2,
+      glowIntensity: 0.35,
+      saturation: 0,
+      hueShift: 140,
+      twinkleIntensity: 0.3,
+      rotationSpeed: 0.08,
+      repulsionStrength: 2,
+      starSpeed: 0.5,
+      speed: 1,
+      transparent: false
+    });
+    galaxyEl.classList.add('galaxy-ready');
+  } catch (err) {
+    console.warn('Galaxy WebGL failed, using CSS fallback', err);
+    galaxyEl.classList.add('galaxy-fallback');
+  }
 }
