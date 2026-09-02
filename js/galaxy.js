@@ -1,4 +1,4 @@
-import { Renderer, Program, Mesh, Color, Triangle } from './vendor/ogl.mjs';
+import { Renderer, Program, Mesh, Triangle } from './vendor/ogl.mjs';
 
 const vertexShader = `
 attribute vec2 uv;
@@ -209,45 +209,39 @@ export function initGalaxy(ctn, options = {}) {
 
   let program;
 
-  function getViewportSize() {
+  function syncToViewport() {
     const vv = window.visualViewport;
-    const width = Math.max(
-      window.innerWidth,
-      vv?.width || 0,
-      document.documentElement.clientWidth || 0
-    );
-    // Use the largest known height + buffer so mobile browser chrome
-    // never leaves a black strip above/below the canvas.
-    const height = Math.max(
-      window.innerHeight,
-      vv?.height || 0,
-      document.documentElement.clientHeight || 0,
-      screen?.height || 0
-    ) + 120;
+    const width = Math.max(1, Math.round(vv?.width || window.innerWidth));
+    const height = Math.max(1, Math.round(vv?.height || window.innerHeight));
+    const offsetTop = vv?.offsetTop || 0;
+    const offsetLeft = vv?.offsetLeft || 0;
 
-    return {
-      width: Math.max(1, Math.ceil(width)),
-      height: Math.max(1, Math.ceil(height))
-    };
-  }
+    // Pin the layer to the *visible* viewport — fixes iOS Safari
+    // clipping fixed WebGL backgrounds above/below the content band.
+    ctn.style.position = 'fixed';
+    ctn.style.top = '0px';
+    ctn.style.left = '0px';
+    ctn.style.right = 'auto';
+    ctn.style.bottom = 'auto';
+    ctn.style.width = `${width}px`;
+    ctn.style.height = `${height}px`;
+    ctn.style.transform = `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`;
 
-  function resize() {
-    const { width, height } = getViewportSize();
     renderer.setSize(width, height);
+    gl.canvas.style.width = `${width}px`;
+    gl.canvas.style.height = `${height}px`;
+
     if (program) {
-      program.uniforms.uResolution.value = new Color(
-        gl.canvas.width,
-        gl.canvas.height,
-        gl.canvas.width / gl.canvas.height
-      );
+      program.uniforms.uResolution.value[0] = gl.canvas.width;
+      program.uniforms.uResolution.value[1] = gl.canvas.height;
+      program.uniforms.uResolution.value[2] = gl.canvas.width / gl.canvas.height;
     }
   }
 
-  window.addEventListener('resize', resize, false);
-  window.addEventListener('orientationchange', resize, false);
-  window.visualViewport?.addEventListener('resize', resize);
-  window.visualViewport?.addEventListener('scroll', resize);
-  resize();
+  window.addEventListener('resize', syncToViewport, false);
+  window.addEventListener('orientationchange', syncToViewport, false);
+  window.visualViewport?.addEventListener('resize', syncToViewport);
+  window.visualViewport?.addEventListener('scroll', syncToViewport);
 
   const geometry = new Triangle(gl);
   program = new Program(gl, {
@@ -256,7 +250,7 @@ export function initGalaxy(ctn, options = {}) {
     uniforms: {
       uTime: { value: 0 },
       uResolution: {
-        value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+        value: new Float32Array([gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height])
       },
       uFocal: { value: new Float32Array(focal) },
       uRotation: { value: new Float32Array(rotation) },
@@ -298,10 +292,9 @@ export function initGalaxy(ctn, options = {}) {
   }
 
   animateId = requestAnimationFrame(update);
-  gl.canvas.style.width = '100%';
-  gl.canvas.style.height = '100%';
   gl.canvas.style.display = 'block';
   ctn.appendChild(gl.canvas);
+  syncToViewport();
 
   function handleMouseMove(e) {
     const x = e.clientX / window.innerWidth;
@@ -322,10 +315,10 @@ export function initGalaxy(ctn, options = {}) {
 
   return () => {
     cancelAnimationFrame(animateId);
-    window.removeEventListener('resize', resize);
-    window.removeEventListener('orientationchange', resize);
-    window.visualViewport?.removeEventListener('resize', resize);
-    window.visualViewport?.removeEventListener('scroll', resize);
+    window.removeEventListener('resize', syncToViewport);
+    window.removeEventListener('orientationchange', syncToViewport);
+    window.visualViewport?.removeEventListener('resize', syncToViewport);
+    window.visualViewport?.removeEventListener('scroll', syncToViewport);
     if (mouseInteraction) {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);

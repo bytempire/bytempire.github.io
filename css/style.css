@@ -24,17 +24,19 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
-  background: #000;
+  background-color: #000;
   overflow-x: clip;
+  min-height: 100%;
 }
 
 body {
   font-family: var(--font);
-  background: #000;
+  background: transparent;
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100%;
+  position: relative;
 }
 
 .container {
@@ -43,56 +45,24 @@ body {
   padding: 0 24px;
 }
 
-/* Galaxy background (React Bits) */
+/* Galaxy background — size/position driven by JS on mobile */
 .galaxy {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
-  width: 100vw;
-  width: 100dvw;
-  height: 100vh;
-  height: 100dvh;
-  height: 100lvh;
-  min-height: 100%;
-  min-height: -webkit-fill-available;
   pointer-events: none;
-  background:
-    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 40% 70%, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1.5px 1.5px at 50% 20%, rgba(200, 200, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 85% 65%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1.5px 1.5px at 10% 80%, rgba(180, 180, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 60% 85%, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1px 1px at 90% 15%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 30% 50%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(2px 2px at 75% 25%, rgba(162, 155, 254, 0.7), transparent),
-    #000;
-  background-size: 100% 100%;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-
-@supports (height: 100svh) {
-  .galaxy {
-    top: calc(-1 * env(safe-area-inset-top, 0px));
-    height: calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
-    min-height: calc(100svh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px) + 80px);
-  }
-}
-
-.galaxy.galaxy-ready {
+  overflow: hidden;
   background: #000;
+  will-change: transform;
 }
 
 .galaxy canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* Background effects */
