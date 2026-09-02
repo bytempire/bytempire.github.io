@@ -500,55 +500,6 @@ body {
   color: var(--text);
 }
 
-/* Skills */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.skill-group {
-  padding: 32px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: border-color 0.3s;
-}
-
-.skill-group:hover {
-  border-color: rgba(108, 92, 231, 0.3);
-}
-
-.skill-group h3 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent-2);
-  margin-bottom: 20px;
-}
-
-.skill-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.skill-list li {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  padding-left: 16px;
-  position: relative;
-}
-
-.skill-list li::before {
-  content: '▸';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-size: 0.75rem;
-}
-
 /* Contact */
 .section-contact {
   padding-bottom: 120px;
@@ -638,10 +589,6 @@ body {
   .project-card:nth-child(even) {
     grid-template-columns: 1fr;
     direction: ltr;
-  }
-
-  .skills-grid {
-    grid-template-columns: 1fr;
   }
 
   .contact-box {
