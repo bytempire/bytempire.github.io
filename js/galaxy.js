@@ -308,8 +308,8 @@ export function initGalaxy(ctn, options = {}) {
 const galaxyEl = document.getElementById('galaxy');
 if (galaxyEl) {
   initGalaxy(galaxyEl, {
-    mouseInteraction: true,
-    mouseRepulsion: true,
+    mouseInteraction: false,
+    mouseRepulsion: false,
     density: 1,
     glowIntensity: 0.3,
     saturation: 0,
