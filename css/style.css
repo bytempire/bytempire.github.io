@@ -186,7 +186,6 @@ body {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 60px;
 }
 
 .btn {
@@ -236,32 +235,6 @@ body {
 .btn-lg {
   padding: 16px 32px;
   font-size: 1rem;
-}
-
-.hero-stats {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.stat-num {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-family: var(--mono);
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 40px;
-  background: var(--border);
 }
 
 /* Sections */
@@ -624,17 +597,5 @@ body {
 
   .nav-toggle {
     display: flex;
-  }
-
-  .hero-stats {
-    gap: 20px;
-  }
-
-  .stat-divider {
-    display: none;
-  }
-
-  .hero-stats {
-    flex-wrap: wrap;
   }
 }
