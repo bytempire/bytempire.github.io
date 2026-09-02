@@ -48,12 +48,14 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
   z-index: 0;
   width: 100vw;
+  width: 100dvw;
   height: 100vh;
   height: 100dvh;
+  height: 100lvh;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
   pointer-events: none;
   background:
     radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
@@ -72,13 +74,22 @@ body {
   -webkit-transform: translateZ(0);
 }
 
+@supports (height: 100svh) {
+  .galaxy {
+    top: calc(-1 * env(safe-area-inset-top, 0px));
+    height: calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
+    min-height: calc(100svh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px) + 80px);
+  }
+}
+
 .galaxy.galaxy-ready {
   background: #000;
 }
 
 .galaxy canvas {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100% !important;
   height: 100% !important;
   display: block;
