@@ -275,10 +275,32 @@ body {
   align-items: start;
 }
 
+.about-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.about-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 15%;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 6px rgba(108, 92, 231, 0.15);
+  flex-shrink: 0;
+}
+
 .about-text p {
   color: var(--text-muted);
   font-size: 1.05rem;
   margin-bottom: 16px;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
 }
 
 .about-cards {
