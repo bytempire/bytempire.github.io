@@ -148,12 +148,10 @@ if (orderForm) {
     e.preventDefault();
     const name = orderForm.name.value.trim();
     const task = orderForm.task.value.trim();
-    const contact = orderForm.contact.value.trim();
 
-    if (!name || !task || !contact) return;
+    if (!name || !task) return;
 
-    // Формируем текст и открываем Telegram
-    const text = `Новый заказ!\n\nПроект: ${name}\nЗадание: ${task}\nКонтакт: ${contact}`;
+    const text = `Новый заказ!\n\nПроект: ${name}\nЗадание: ${task}`;
     const url = `https://t.me/ffeagle?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
 

@@ -978,36 +978,6 @@ body::after {
   justify-content: center;
 }
 
-.modal-direct {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  text-decoration: none;
-  border: 1px solid var(--border);
-  color: var(--accent-3);
-}
-
-.modal-direct:hover,
-.modal-direct:focus,
-.modal-direct:visited {
-  text-decoration: none;
-  color: var(--accent-3);
-}
-
-.modal-direct-icon {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-}
-
-.modal-direct:hover {
-  border-color: rgba(0, 212, 255, 0.5);
-  color: var(--accent-3);
-  box-shadow: var(--box-shadow-neon-tertiary);
-}
-
 /* Footer */
 .footer {
   position: relative;
