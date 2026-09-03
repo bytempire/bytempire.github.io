@@ -7,39 +7,38 @@
   <title>Bytempire — Web Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
   <div id="galaxy" class="galaxy" aria-hidden="true"></div>
   <div class="noise"></div>
 
-  <header class="header" id="header">
-    <nav class="nav container">
-      <ul class="nav-links">
-        <li><a href="#about">Обо мне</a></li>
-        <li><a href="#projects">Работы</a></li>
-        <li><a href="#contact">Контакт</a></li>
-      </ul>
-      <button class="nav-toggle" aria-label="Меню">
-        <span></span><span></span><span></span>
-      </button>
-    </nav>
-  </header>
-
   <main>
     <section class="hero">
       <div class="container hero-inner">
-        <p class="hero-label reveal">Frontend Developer</p>
-        <h1 class="hero-title reveal">
+        <p class="hero-label reveal" data-label="Frontend Developer"></p>
+        <h1 class="hero-title reveal cyber-glitch" data-text="Создаю стильные сайты, которые работают на бизнес">
           Создаю <span class="gradient-text">стильные сайты</span>,<br>
           которые работают на бизнес
         </h1>
         <p class="hero-desc reveal">
           Лендинги, корпоративные сайты и SaaS-интерфейсы — от идеи до готового продукта.
         </p>
-        <div class="hero-actions reveal">
-          <a href="#projects" class="btn btn-primary">Смотреть работы</a>
+      </div>
+    </section>
+
+    <section class="section section-contact" id="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <div class="contact-content">
+            <span class="section-tag">03 — Контакт</span>
+            <h2 class="section-title">Есть проект?<br>Давайте обсудим</h2>
+            <p>Открыт к новым задачам — лендинги, сайты, редизайн.</p>
+          </div>
+          <div class="contact-actions">
+            <button type="button" class="btn btn-primary btn-lg" id="open-order-modal">Заказать проект</button>
+          </div>
         </div>
       </div>
     </section>
@@ -52,13 +51,6 @@
         </div>
         <div class="about-grid">
           <div class="about-intro reveal">
-            <img
-              class="about-avatar"
-              src="assets/artem.png"
-              alt="Артём"
-              width="140"
-              height="140"
-            >
             <div class="about-text">
               <p>
                 Привет, меня зовут Артём — я создаю современные веб-сайты для бизнеса:
@@ -73,17 +65,23 @@
           </div>
           <div class="about-cards reveal">
             <div class="about-card">
-              <div class="about-card-icon">🎯</div>
+              <div class="about-card-icon" aria-hidden="true">
+                <img src="assets/landing.png" alt="" width="40" height="40">
+              </div>
               <h3>Лендинги</h3>
               <p>Конверсионные страницы для курсов, продуктов и услуг</p>
             </div>
             <div class="about-card">
-              <div class="about-card-icon">🏢</div>
+              <div class="about-card-icon" aria-hidden="true">
+                <img src="assets/corporate.png" alt="" width="40" height="40">
+              </div>
               <h3>Корпоративные</h3>
               <p>Каталоги, формы, многостраничная структура</p>
             </div>
             <div class="about-card">
-              <div class="about-card-icon">⚡</div>
+              <div class="about-card-icon" aria-hidden="true">
+                <img src="assets/saas.png" alt="" width="40" height="40">
+              </div>
               <h3>SaaS</h3>
               <p>Лендинги для tech-продуктов с pricing и фичами</p>
             </div>
@@ -187,20 +185,6 @@
       </div>
     </section>
 
-    <section class="section section-contact" id="contact">
-      <div class="container">
-        <div class="contact-box reveal">
-          <div class="contact-content">
-            <span class="section-tag">03 — Контакт</span>
-            <h2 class="section-title">Есть проект?<br>Давайте обсудим</h2>
-            <p>Открыт к новым задачам — лендинги, сайты, редизайн.</p>
-          </div>
-          <div class="contact-actions">
-            <a href="https://t.me/ffeagle" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Написать в Telegram</a>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -209,7 +193,40 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=5"></script>
-  <script type="module" src="js/galaxy.js?v=5"></script>
+  <!-- Order Modal -->
+  <div class="modal-overlay" id="order-modal" hidden>
+    <div class="modal cyber-chamfer">
+      <button type="button" class="modal-close" id="close-order-modal" aria-label="Закрыть">✕</button>
+      <h2 class="modal-title">Заказать проект</h2>
+      <p class="modal-desc">> Опишите задачу — свяжусь с вами в Telegram.</p>
+      <form class="modal-form" id="order-form">
+        <label class="modal-label" for="order-name">Название проекта</label>
+        <div class="modal-input-wrap">
+          <span class="modal-input-prefix">></span>
+          <input type="text" id="order-name" name="name" placeholder="Например, Бот магазин" required>
+        </div>
+        <label class="modal-label" for="order-task">Текстовое задание</label>
+        <div class="modal-input-wrap">
+          <span class="modal-input-prefix">></span>
+          <textarea id="order-task" name="task" rows="4" placeholder="Что нужно сделать?" required></textarea>
+        </div>
+        <label class="modal-label" for="order-contact">Контакт (Telegram)</label>
+        <div class="modal-input-wrap">
+          <span class="modal-input-prefix">></span>
+          <input type="text" id="order-contact" name="contact" placeholder="@username" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg modal-submit">Отправить</button>
+        <a href="https://t.me/ffeagle" target="_blank" rel="noopener" class="btn btn-ghost btn-lg modal-direct">
+          <svg class="modal-direct-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+          <span>Написать напрямую</span>
+        </a>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=7"></script>
+  <script type="module" src="js/galaxy.js?v=7"></script>
 </body>
 </html>
